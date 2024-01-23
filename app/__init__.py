@@ -4,4 +4,4 @@ app = Flask(__name__, template_folder="views/templates")
 app.secret_key = "75fc78df8vhj92gv92yvhz"
 
 
-from app.controllers import controller_conversor
+from app.controllers import controller
