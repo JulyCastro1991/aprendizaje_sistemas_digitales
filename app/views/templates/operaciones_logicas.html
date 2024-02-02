@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} PAGINA DE OPERACIONES LÓGICAS {% endblock %}</h1>
+
+    <h5>Ingrese la expresión booleana utilizando solo A, B, C, D y los operadores lógicos (& para AND, | para OR, ~ para NOT, ^ para XOR): </h5>
+<div class="mt-3">
+    <form>
+        <div class="form-group">
+            <label for="expression">Entrada:</label>
+            <input type="text" class="form-control" id="expression" name="expression" required>
+        </div>
+        <div class="form-group">
+            <label for="respuesta">A:</label>
+            <input type="text" class="form-control" id="A_val" name="A_val" required >
+        </div>
+        <div class="form-group">
+            <label for="B_val">B:</label>
+            <input type="text" class="form-control" id="B_val" name="B_val" required >
+        </div>
+        <div class="form-group">
+            <label for="C_val">C:</label>
+            <input type="text" class="form-control" id="C_val" name="C_val" required >
+        </div>
+        <div class="form-group">
+            <label for="D_val">D:</label>
+            <input type="text" class="form-control" id="D_val" name="D_val" required >
+        </div>
+        <div class="form-group">
+            <label for="respuesta">Respuesta:</label>
+            <input type="text" class="form-control" id="respuesta" name="respuesta" disabled >
+        </div>
+        <div class="form-group">
+            <label for="operacion_simplificada">Operacion simplificada:</label>
+            <input type="text" class="form-control" id="operacion_simplificada" name="operacion_simplificada" disabled >
+        </div>
+        <!-- Otros campos del formulario -->
+        <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
+</div>
+
+<script>
+
+  $(document).ready(function() {
+     $('form').submit(function(event) {
+        event.preventDefault();
+        $.ajax({
+           type: 'POST',
+           url: '/operaciones_logicas',
+           data: $('form').serialize(),
+           success: function(ret) {
+              console.log(ret)
+              $("#respuesta").val(ret.valor)
+              $("#operacion_simplificada").val(ret.simplificada)
+
+            }
+        });
+     });
+  });
+
+</script>
+
+
+{% endblock %}

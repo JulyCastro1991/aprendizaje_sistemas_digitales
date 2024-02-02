@@ -1,6 +1,8 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -18,12 +20,15 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="{{url_for('conversor')}}">Conversor</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{url_for('tablas')}}">Tablas de verdad</a>
-            </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="{{url_for('conversor')}}">Conversor</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{url_for('operaciones_binarias')}}">Operaciones aritméticas binarias</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{url_for('operaciones_logicas')}}">Operaciones lógicas</a>
+              </li>
             </ul>
         </div>
       </nav>
@@ -36,7 +41,6 @@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     

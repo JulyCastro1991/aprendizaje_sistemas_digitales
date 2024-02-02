@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>{% block title %} PAGINA DE OPERACIONES BINARIAS {% endblock %}</h2>
+
+<div class="mt-3">
+    <form >
+
+        <div class="row px-3 p-2">
+            <div class="form-group col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 p-2">
+                <label for="term1">Primer término:</label>
+                <input type="text" class="form-control" id="term1" name="term1" required pattern="[01]{1,5}\.[01]{1,2}?" title="Debe ser un número binario como 10101.01" maxlength="8">
+            </div>
+    
+            <div class="form-group">
+                <br>
+                <br>
+                <select class="form-group" id="operador" name="operador" required>
+                    <option value = "+">+</option>
+                    <option value = "-">-</option>
+                    <option value = "*">*</option>
+                    <option value = "/">/</option>
+                  </select>
+            </div>
+    
+            <div class="form-group col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 p-2">
+                <label for="term2">Segundo término:</label>
+                <input type="text" class="form-control" id="term2" name="term2" required pattern="[01]{1,5}\.[01]{1,2}?" title="Debe ser un número binario como 10101.01" maxlength="8">
+            </div>
+    
+            <br>
+    
+            <div class="form-group col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 p-2">
+                <label for="respuesta">Respuesta:</label>
+                <input type="text" class="form-control" id="respuesta" name="respuesta" disabled >
+            </div>
+    
+
+        </div>
+          
+        <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
+</div>
+
+<script>
+
+  $(document).ready(function() {
+     $('form').submit(function(event) {
+        event.preventDefault();
+        $.ajax({
+           type: 'POST',
+           url: '/operaciones_binarias',
+           data: $('form').serialize(),
+           success: function(ret) {
+              console.log(ret)
+              $("#respuesta").val(ret)
+           }
+        });
+     });
+  });
+
+</script>
+
+
+{% endblock %}
