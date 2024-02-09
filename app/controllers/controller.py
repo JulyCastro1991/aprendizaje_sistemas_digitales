@@ -4,6 +4,7 @@ from app.models.operations_logics import calculadora_operaciones_logicas
 from flask import Flask, render_template, request, url_for, flash, redirect
 from werkzeug.exceptions import abort
 from app import app
+import requests
 # import serial
 
 # puerto_serie = serial.Serial('COM3', 115200, timeout=1)
@@ -19,6 +20,8 @@ def operaciones_binarias():
         term2 = request.form['term2']
         operador = request.form['operador']
         salida = calculadora_binaria(term1, term2, operador)
+        resp = requests.post('http://192.168.1.11/', data=salida)
+
         # puerto_serie.write(str(salida).encode())
 
         return salida
@@ -33,6 +36,8 @@ def conversor():
         final = request.form['final']
         salida = convertidor(entrada, inicial, final)
         # puerto_serie.write(str(salida).encode())
+        resp = requests.post('http://192.168.1.11/', data=salida)
+
         return  salida
     
     return render_template('conversor.html')
@@ -49,6 +54,8 @@ def operaciones_logicas():
 
         salida = calculadora_operaciones_logicas(expression, A_val,  B_val, C_val, D_val)
         # puerto_serie.write((str(salida['valor']) + "\n" + "Simplificada: "+ "\n" + str(salida['simplificada'])).encode())
+        data = (str(salida['valor']) + "\n" + "Simplificada: "+ "\n" + str(salida['simplificada'])).encode() 
+        resp = requests.post('http://192.168.1.11/', data=data)
 
         return  salida
     
