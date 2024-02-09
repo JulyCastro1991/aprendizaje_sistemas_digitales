@@ -36,6 +36,8 @@
         </div>
         <!-- Otros campos del formulario -->
         <button type="submit" class="btn btn-primary">Enviar</button>
+        <button onclick="autocompletar()" class="btn btn-primary">Enviar automaticos</button>
+
     </form>
 </div>
 
@@ -57,6 +59,15 @@
         });
      });
   });
+
+  function autocompletar(){
+    document.getElementById("expression").value = 'A & ~B & ~C & ~D | A & ~B & C & ~D';
+    document.getElementById('A_val').value = Math.floor(Math.random() * 2);
+    document.getElementById('B_val').value = Math.floor(Math.random() * 2);
+    document.getElementById('C_val').value = Math.floor(Math.random() * 2);
+    document.getElementById('D_val').value = Math.floor(Math.random() * 2);
+
+  }
 
 </script>
 

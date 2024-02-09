@@ -116,19 +116,6 @@ def decimal_a_binario(numero):
 
     return respuesta
 
-def decimal_a_binario2(numero):
-    decimal_fraccionario = "0."+str(numero)
-    decimal_fraccionario=float(decimal_fraccionario)
-
-    respuesta = ""
-    
-    while decimal_fraccionario != 0:
-        decimal_fraccionario *= 2
-        respuesta += str(int(decimal_fraccionario))
-        decimal_fraccionario -= int(decimal_fraccionario)
-
-    return respuesta
-
 
 def decimal_a_octal(numero):
     decimal_fraccionario = "0."+str(numero)
