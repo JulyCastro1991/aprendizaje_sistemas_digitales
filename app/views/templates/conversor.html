@@ -9,9 +9,9 @@
         <label for="inicial"> Quiero convertir: </label>
         <select class="form-group" id="inicial" name="inicial" required>
             <option value = "decimal">Decimal</option>
+            <option value = "binario">Binario</option>
             <option value = "octal">Octal</option>
             <option value = "hexadecimal">Hexadecimal</option>
-            <option value = "binario">Binario</option>
         </select>
           
         <div class="form-group">
@@ -22,18 +22,19 @@
         <label for="final"> A: </label>
         <select class="form-group" id="final" name="final" required>
             <option value = "decimal">Decimal</option>
+            <option value = "binario">Binario</option>
             <option value = "octal">Octal</option>
             <option value = "hexadecimal">Hexadecimal</option>
-            <option value = "binario">Binario</option>
           </select>
 
-          <button type="submit" class="btn btn-primary">Enviar</button>
+          <div>
+            <button type="submit" class="btn btn-primary">Enviar</button>
+          </div>
 
         <div class="form-group">
             <label for="respuesta">Respuesta:</label>
             <input type="text" class="form-control" id="respuesta" name="respuesta" disabled >
         </div>
-        <!-- Otros campos del formulario -->
         
     </form>
 </div>
