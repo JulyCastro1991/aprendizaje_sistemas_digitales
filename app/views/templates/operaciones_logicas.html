@@ -36,11 +36,7 @@
         </div>
         <!-- Otros campos del formulario -->
         <button type="submit" class="btn btn-primary">Enviar</button>
-<<<<<<< HEAD
-        <button onclick="autocompletar()" class="btn btn-primary">Enviar automatico</button>
-=======
         <button onclick="autocompletar()" class="btn btn-primary">Enviar automaticos</button>
->>>>>>> a942333e73ad750565edd64907843f2035318c9a
 
     </form>
 </div>
@@ -65,12 +61,8 @@
   });
 
   function autocompletar(){
-<<<<<<< HEAD
     if(document.getElementById("expression").value == "") document.getElementById("expression").value = 'A & ~B & ~C & ~D | A & ~B & C & ~D';
     
-=======
-    document.getElementById("expression").value = 'A & ~B & ~C & ~D | A & ~B & C & ~D';
->>>>>>> a942333e73ad750565edd64907843f2035318c9a
     document.getElementById('A_val').value = Math.floor(Math.random() * 2);
     document.getElementById('B_val').value = Math.floor(Math.random() * 2);
     document.getElementById('C_val').value = Math.floor(Math.random() * 2);
