@@ -57,7 +57,7 @@ def operaciones_logicas():
         salida = calculadora_operaciones_logicas(expression, A_val,  B_val, C_val, D_val)
         # puerto_serie.write((str(salida['valor']) + "\n" + "Simplificada: "+ "\n" + str(salida['simplificada'])).encode())
         data = (str(salida['valor']) + "\n" + "Funcion: "+ "\n" + str(salida['simplificada'])).encode() 
-        resp = requests.post(f'{ip_servidor}', data=data)
+        resp = requests.post(f'{ip_servidor}/operaciones_logicas', data=data)
 
         return  salida
     

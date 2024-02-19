@@ -113,6 +113,11 @@
   function autocompletar(){
     if(document.getElementById("expression").value == "") document.getElementById("expression").value = 'A & ~B & ~C & ~D | A & ~B & C & ~D';
     
+    $('#A_div').prop('hidden', false)
+    $('#B_div').prop('hidden', false)
+    $('#C_div').prop('hidden', false)
+    $('#D_div').prop('hidden', false)
+
     document.getElementById('A_val').value = Math.floor(Math.random() * 2);
     document.getElementById('B_val').value = Math.floor(Math.random() * 2);
     document.getElementById('C_val').value = Math.floor(Math.random() * 2);
