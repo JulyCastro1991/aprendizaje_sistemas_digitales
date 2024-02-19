@@ -9,7 +9,7 @@ import requests
 
 # puerto_serie = serial.Serial('COM3', 115200, timeout=1)
 
-ip_servidor = 'http://192.168.43.190'
+ip_servidor = 'http://192.168.155.190'
 
 @app.route('/')
 def index():
@@ -56,9 +56,20 @@ def operaciones_logicas():
 
         salida = calculadora_operaciones_logicas(expression, A_val,  B_val, C_val, D_val)
         # puerto_serie.write((str(salida['valor']) + "\n" + "Simplificada: "+ "\n" + str(salida['simplificada'])).encode())
-        data = (str(salida['valor']) + "\n" + "Simplificada: "+ "\n" + str(salida['simplificada'])).encode() 
-        resp = requests.post(f'{ip_servidor}/operaciones_logicas', data=data)
+        data = (str(salida['valor']) + "\n" + "Funcion: "+ "\n" + str(salida['simplificada'])).encode() 
+        resp = requests.post(f'{ip_servidor}', data=data)
 
         return  salida
     
     return render_template('operaciones_logicas.html')
+
+
+@app.route('/mostrar_tabla', methods=['POST'])
+def mostrar_tabla():
+    if request.method == 'POST':
+        data = request.args.get("contador", "")
+
+        print(data)
+        requests.post(f'{ip_servidor}/mostrar_tabla', data=data)
+
+        return  "OK"

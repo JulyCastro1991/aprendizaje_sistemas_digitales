@@ -10,19 +10,19 @@
             <label for="expression">Entrada:</label>
             <input type="text" class="form-control" id="expression" name="expression" required>
         </div>
-        <div class="form-group">
+        <div class="form-group" id="A_div" hidden>
             <label for="respuesta">A:</label>
             <input type="text" class="form-control" id="A_val" name="A_val" required >
         </div>
-        <div class="form-group">
+        <div class="form-group" id="B_div" hidden>
             <label for="B_val">B:</label>
             <input type="text" class="form-control" id="B_val" name="B_val" required >
         </div>
-        <div class="form-group">
+        <div class="form-group" id="C_div" hidden>
             <label for="C_val">C:</label>
             <input type="text" class="form-control" id="C_val" name="C_val" required >
         </div>
-        <div class="form-group">
+        <div class="form-group" id="D_div" hidden>
             <label for="D_val">D:</label>
             <input type="text" class="form-control" id="D_val" name="D_val" required >
         </div>
@@ -31,12 +31,13 @@
             <input type="text" class="form-control" id="respuesta" name="respuesta" disabled >
         </div>
         <div class="form-group">
-            <label for="operacion_simplificada">Operacion simplificada:</label>
+            <label for="operacion_simplificada">Función:</label>
             <input type="text" class="form-control" id="operacion_simplificada" name="operacion_simplificada" disabled >
         </div>
         <!-- Otros campos del formulario -->
-        <button type="submit" class="btn btn-primary">Enviar</button>
+        <button onclick="enviar()" class="btn btn-primary">Enviar</button>
         <button onclick="autocompletar()" class="btn btn-primary">Enviar automaticos</button>
+        <button type="button" onclick="mostrarTabla()" class="btn btn-primary">Mostrar Tabla ESP32</button>
 
     </form>
 </div>
@@ -44,6 +45,46 @@
 <script>
 
   $(document).ready(function() {
+
+    $('#expression').keypress(function (event) {
+        cadena =  $('#expression').val() + ' ' + event.key;
+        console.log(cadena);
+
+        if(cadena.includes('A') || cadena.includes('a')) $('#A_div').prop('hidden', false); else $('#A_div').prop('hidden', true);
+        if(cadena.includes('B') || cadena.includes('b')) $('#B_div').prop('hidden', false); else $('#B_div').prop('hidden', true);
+        if(cadena.includes('C') || cadena.includes('c')) $('#C_div').prop('hidden', false); else $('#C_div').prop('hidden', true);
+        if(cadena.includes('D') || cadena.includes('d')) $('#D_div').prop('hidden', false); else $('#D_div').prop('hidden', true);
+
+        limpiarRespuesta();
+    
+    });
+
+    $('#expression').keydown(function (event) {
+        cadena =  $('#expression').val() + ' ';
+        
+        if(event.keyCode == 8 || event.keyCode == 46) {
+            if(cadena.includes('A') || cadena.includes('a')) $('#A_div').prop('hidden', false); else $('#A_div').prop('hidden', true);
+            if(cadena.includes('B') || cadena.includes('b')) $('#B_div').prop('hidden', false); else $('#B_div').prop('hidden', true);
+            if(cadena.includes('C') || cadena.includes('c')) $('#C_div').prop('hidden', false); else $('#C_div').prop('hidden', true);
+            if(cadena.includes('D') || cadena.includes('d')) $('#D_div').prop('hidden', false); else $('#D_div').prop('hidden', true);
+        }
+
+        limpiarRespuesta();
+    });
+
+    $('#expression').change(function (event) {
+        cadena =  $('#expression').val() + ' ';
+        
+        if(cadena.includes('A') || cadena.includes('a')) $('#A_div').prop('hidden', false); else $('#A_div').prop('hidden', true);
+        if(cadena.includes('B') || cadena.includes('b')) $('#B_div').prop('hidden', false); else $('#B_div').prop('hidden', true);
+        if(cadena.includes('C') || cadena.includes('c')) $('#C_div').prop('hidden', false); else $('#C_div').prop('hidden', true);
+        if(cadena.includes('D') || cadena.includes('d')) $('#D_div').prop('hidden', false); else $('#D_div').prop('hidden', true);
+
+        limpiarRespuesta();
+    
+    });
+
+
      $('form').submit(function(event) {
         event.preventDefault();
         $.ajax({
@@ -51,7 +92,7 @@
            url: '/operaciones_logicas',
            data: $('form').serialize(),
            success: function(ret) {
-              console.log(ret)
+              console.log( $('form').serialize())
               $("#respuesta").val(ret.valor)
               $("#operacion_simplificada").val(ret.simplificada)
 
@@ -59,6 +100,15 @@
         });
      });
   });
+
+  function enviar(){
+    
+    if($('#A_val').val() == '' && !($('#expression').val().includes('A')) || $('#expression').val().includes('a')) $('#A_val').val('1');
+    if($('#B_val').val() == '') $('#B_val').val('1');
+    if($('#C_val').val() == '') $('#C_val').val('1');
+    if($('#D_val').val() == '') $('#D_val').val('1');
+
+  }
 
   function autocompletar(){
     if(document.getElementById("expression").value == "") document.getElementById("expression").value = 'A & ~B & ~C & ~D | A & ~B & C & ~D';
@@ -68,6 +118,31 @@
     document.getElementById('C_val').value = Math.floor(Math.random() * 2);
     document.getElementById('D_val').value = Math.floor(Math.random() * 2);
 
+  }
+
+  function mostrarTabla(){
+    console.log('Mostrar Tabla');
+
+    contador = 0;
+
+    if($('#expression').val().includes('A') || $('#expression').val().includes('a')) contador += 1;
+    if($('#expression').val().includes('B') || $('#expression').val().includes('b')) contador += 1;
+    if($('#expression').val().includes('C') || $('#expression').val().includes('c')) contador += 1;
+    if($('#expression').val().includes('D') || $('#expression').val().includes('d')) contador += 1;
+
+    if(contador > 0){
+        $.ajax({
+           type: 'POST',
+           url: '/mostrar_tabla?contador='+contador,
+           success: function(ret) {
+            }
+        });
+    }
+  }
+
+  function limpiarRespuesta(){
+    $("#respuesta").val("")
+    $("#operacion_simplificada").val("")
   }
 
 </script>

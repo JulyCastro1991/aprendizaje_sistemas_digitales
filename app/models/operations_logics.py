@@ -12,12 +12,13 @@ def calculadora_operaciones_logicas(expression_input, A_val, B_val, C_val, D_val
     # Evaluar la expresión para los valores ingresados
     result = evaluate_expression(expression, [A_val, B_val, C_val, D_val])
 
+    print(result)
     # Simplificar la expresión booleana
     simplified_expression = simplify_logic(expression)
 
     # Retornae el resultado
     return {
-        'valor':f'{1 if result else 0}',
+        'valor':f'{"True" if result else "False"}',
         'simplificada': f'{simplified_expression}'
     }
 
