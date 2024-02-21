@@ -39,7 +39,18 @@
         <button onclick="autocompletar()" class="btn btn-primary">Enviar automaticos</button>
         <button type="button" onclick="mostrarTabla()" class="btn btn-primary">Mostrar Tabla ESP32</button>
 
+        <div class="form-group">
+            <br>
+            <br>
+
+            <div id="tabla_verdad"></div>
+
+        </div>
+
+
     </form>
+
+
 </div>
 
 <script>
@@ -48,7 +59,6 @@
 
     $('#expression').keypress(function (event) {
         cadena =  $('#expression').val() + ' ' + event.key;
-        console.log(cadena);
 
         if(cadena.includes('A') || cadena.includes('a')) $('#A_div').prop('hidden', false); else $('#A_div').prop('hidden', true);
         if(cadena.includes('B') || cadena.includes('b')) $('#B_div').prop('hidden', false); else $('#B_div').prop('hidden', true);
@@ -92,10 +102,8 @@
            url: '/operaciones_logicas',
            data: $('form').serialize(),
            success: function(ret) {
-              console.log( $('form').serialize())
               $("#respuesta").val(ret.valor)
               $("#operacion_simplificada").val(ret.simplificada)
-
             }
         });
      });
@@ -104,19 +112,19 @@
   function enviar(){
     
     if($('#A_val').val() == '' && !($('#expression').val().includes('A')) || $('#expression').val().includes('a')) $('#A_val').val('1');
-    if($('#B_val').val() == '') $('#B_val').val('1');
-    if($('#C_val').val() == '') $('#C_val').val('1');
-    if($('#D_val').val() == '') $('#D_val').val('1');
+    if($('#B_val').val() == '' && !($('#expression').val().includes('B')) || $('#expression').val().includes('b')) $('#B_val').val('1');
+    if($('#C_val').val() == '' && !($('#expression').val().includes('C')) || $('#expression').val().includes('c')) $('#C_val').val('1');
+    if($('#D_val').val() == '' && !($('#expression').val().includes('D')) || $('#expression').val().includes('d')) $('#D_val').val('1');
 
   }
 
   function autocompletar(){
     if(document.getElementById("expression").value == "") document.getElementById("expression").value = 'A & ~B & ~C & ~D | A & ~B & C & ~D';
     
-    $('#A_div').prop('hidden', false)
-    $('#B_div').prop('hidden', false)
-    $('#C_div').prop('hidden', false)
-    $('#D_div').prop('hidden', false)
+    if(cadena.includes('A') || cadena.includes('a')) $('#A_div').prop('hidden', false)
+    if(cadena.includes('B') || cadena.includes('b')) $('#B_div').prop('hidden', false)
+    if(cadena.includes('C') || cadena.includes('c')) $('#C_div').prop('hidden', false)
+    if(cadena.includes('D') || cadena.includes('d')) $('#D_div').prop('hidden', false)
 
     document.getElementById('A_val').value = Math.floor(Math.random() * 2);
     document.getElementById('B_val').value = Math.floor(Math.random() * 2);
@@ -126,29 +134,116 @@
   }
 
   function mostrarTabla(){
-    console.log('Mostrar Tabla');
-
     contador = 0;
+    letras = [];
 
-    if($('#expression').val().includes('A') || $('#expression').val().includes('a')) contador += 1;
-    if($('#expression').val().includes('B') || $('#expression').val().includes('b')) contador += 1;
-    if($('#expression').val().includes('C') || $('#expression').val().includes('c')) contador += 1;
-    if($('#expression').val().includes('D') || $('#expression').val().includes('d')) contador += 1;
+    if($('#expression').val().includes('A') || $('#expression').val().includes('a')) {contador += 1; letras[letras.length] = "A"};
+    if($('#expression').val().includes('B') || $('#expression').val().includes('b')) {contador += 1; letras[letras.length] = "B"};
+    if($('#expression').val().includes('C') || $('#expression').val().includes('c')) {contador += 1; letras[letras.length] = "C"};
+    if($('#expression').val().includes('D') || $('#expression').val().includes('d')) {contador += 1; letras[letras.length] = "D"};
 
-    if(contador > 0){
-        $.ajax({
-           type: 'POST',
-           url: '/mostrar_tabla?contador='+contador,
-           success: function(ret) {
-            }
-        });
-    }
+    genera_tabla(contador,letras);
+    // if(contador > 0){
+    //     $.ajax({
+    //        type: 'POST',
+    //        url: '/mostrar_tabla?contador='+contador,
+    //        success: function(ret) {
+    //         }
+    //     });
+    // }
   }
 
   function limpiarRespuesta(){
     $("#respuesta").val("")
     $("#operacion_simplificada").val("")
   }
+
+
+
+  function genera_tabla(contador,letras) {
+
+    var tabladata = [[0,0,0,0],
+                 [0,0,0,1],
+                 [0,0,1,0],
+                 [0,0,1,1],
+                 [0,1,0,0],
+                 [0,1,0,1],
+                 [0,1,1,0],
+                 [0,1,1,1],
+                 [1,0,0,0],
+                 [1,0,0,1],
+                 [1,0,1,0],
+                 [1,0,1,1],
+                 [1,1,0,0],
+                 [1,1,0,1],
+                 [1,1,1,0],
+                 [1,1,1,1]];
+        // Obtener la referencia del elemento body
+    var body = document.getElementById("tabla_verdad");
+    body.innerHTML = "";
+
+    // Crea un elemento <table> y un elemento <tbody>
+    var tabla = document.createElement("table");
+    tabla.classList.add("table");
+
+    var tblHead = document.createElement("thead");
+
+
+    var hilera = document.createElement("tr");
+
+    for (var j = 0; j<letras.length; j++) {
+    // Crea un elemento <td> y un nodo de texto, haz que el nodo de
+    // texto sea el contenido de <td>, ubica el elemento <td> al final
+    // de la hilera de la tabla
+        var celda = document.createElement("th");
+        var textoCelda = document.createTextNode(
+            " " + letras[j] + "",
+        );
+        celda.style.textAlign = "center";
+    celda.appendChild(textoCelda);
+    hilera.appendChild(celda);
+    }
+
+    // agrega la hilera al final de la tabla (al final del elemento tblbody)
+    tblHead.appendChild(hilera);
+
+    tabla.appendChild(tblHead);
+
+
+
+
+    var tblBody = document.createElement("tbody");
+
+    // Crea las celdas (filas)
+    for (var i = 0; i < Math.pow(2,contador); i++) {
+        // Crea las columnas de la tabla
+        var hilera = document.createElement("tr");
+
+        for (var j = 4-contador; j < 4; j++) {
+        // Crea un elemento <td> y un nodo de texto, haz que el nodo de
+        // texto sea el contenido de <td>, ubica el elemento <td> al final
+        // de la hilera de la tabla
+            var celda = document.createElement("td");
+            var textoCelda = document.createTextNode(
+                " " + tabladata[i][j] + "",
+            );
+            celda.style.textAlign = "center";
+            celda.appendChild(textoCelda);
+            hilera.appendChild(celda);
+        }
+
+        // agrega la hilera al final de la tabla (al final del elemento tblbody)
+        tblBody.appendChild(hilera);
+    }
+
+    // posiciona el <tbody> debajo del elemento <table>
+    tabla.appendChild(tblBody);
+    // appends <table> into <body>
+    body.appendChild(tabla);
+    // modifica el atributo "border" de la tabla y lo fija a "2";
+    tabla.setAttribute("border", "2");
+  }
+
 
 </script>
 
