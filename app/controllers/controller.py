@@ -9,7 +9,7 @@ import requests
 
 # puerto_serie = serial.Serial('COM3', 115200, timeout=1)
 
-ip_servidor = 'http://192.168.155.190'
+ip_servidor = 'http://192.168.43.190'
 
 @app.route('/')
 def index():
