@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>{% block title %} PAGINA DE OPERACIONES BINARIAS {% endblock %}</h1>
+    <h2>{% block title %} PAGINA DE OPERACIONES BINARIAS {% endblock %}</h2>
 
-    <h5>La calculadora solo permite numeros binarios es decir numeros que conste de 0 y 1</h5>
+    
 <div class="mt-3">
     <form >
 
@@ -55,6 +55,14 @@
            success: function(ret) {
               console.log(ret)
               $("#respuesta").val(ret)
+           }
+        });
+        $.ajax({
+           type: 'POST',
+           url: '/operaciones_binarias_esp',
+           data: $('form').serialize(),
+           success: function(ret) {
+              console.log(ret)
            }
         });
      });
