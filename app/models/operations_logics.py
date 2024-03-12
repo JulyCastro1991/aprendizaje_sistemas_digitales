@@ -7,18 +7,25 @@ def evaluate_expression(expression, values):
 
 
 def calculadora_operaciones_logicas(expression_input, A_val, B_val, C_val, D_val):
-    
-    expression = parse_expr(expression_input)
-    # Evaluar la expresión para los valores ingresados
-    result = evaluate_expression(expression, [A_val, B_val, C_val, D_val])
+    try:
+        expression = parse_expr(expression_input)
+        # Evaluar la expresión para los valores ingresados
+        result = evaluate_expression(expression, [A_val, B_val, C_val, D_val])
 
-    print(result)
-    # Simplificar la expresión booleana
-    simplified_expression = simplify_logic(expression)
+        print(result)
+        # Simplificar la expresión booleana
+        simplified_expression = simplify_logic(expression)
 
-    # Retornae el resultado
-    return {
-        'valor':f'{"True" if result else "False"}',
-        'simplificada': f'{simplified_expression}'
-    }
+        # Retornae el resultado
+        return {
+            'valor':f'{"True" if result else "False"}',
+            'simplificada': f'{simplified_expression}'
+        }
+    except :
+        return {
+            'valor':f'Datos incorrectos',
+            'simplificada': f'Datos incorrectos'
+        }
+
+
 
